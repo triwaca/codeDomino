@@ -8,18 +8,16 @@
  * 
  */
 
-int pin1 = 4;
-int pin2 = 5;
-int pin3 = 6;
-int pin4 = 7;
+int pins()= {4, 5, 6, 7};
 
 int delayTime = 4;
+int coilControl = 0;
 
 void setup(){
-  pinMode(pin1, OUTPUT);
-  pinMode(pin2, OUTPUT);
-  pinMode(pin3, OUTPUT);
-  pinMode(pin4, OUTPUT);
+  pinMode(pins(0), OUTPUT);
+  pinMode(pins(1), OUTPUT);
+  pinMode(pins(2), OUTPUT);
+  pinMode(pins(3), OUTPUT);
 }
 
 void loop(){
@@ -27,20 +25,14 @@ void loop(){
 }
 
 void runMotor(){
-  digitalWrite(pin1, LOW);
-  digitalWrite(pin2, HIGH);
-  digitalWrite(pin3, HIGH);
-  delay(delayTime);
-  digitalWrite(pin2, LOW);
-  digitalWrite(pin3, HIGH);
-  digitalWrite(pin4, HIGH);
-  delay(delayTime);
-  digitalWrite(pin3, LOW);
-  digitalWrite(pin4, HIGH);
-  digitalWrite(pin1, HIGH);
-  delay(delayTime);
-  digitalWrite(pin4, LOW);
-  digitalWrite(pin1, HIGH);
-  digitalWrite(pin2, HIGH);
+  coilControl++;
+  if(coilControl>3)coilControl=0;
+  int nextCoil1 = coilControl + 1;
+  if(nextCoil1>3) nextCoil1 = 0;
+  int nextCoil2 = nextCoil1 + 1;
+  if(nextCoil2>3) nextCoil2 = 0;
+  digitalWrite(coilControl, LOW);
+  digitalWrite(nextCoil1, HIGH);
+  digitalWrite(nextCoil2, HIGH);
   delay(delayTime);
 }
